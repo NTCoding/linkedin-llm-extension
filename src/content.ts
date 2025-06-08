@@ -159,7 +159,6 @@ class LinkedInLLMDetector {
 
     private processPost(postElement: HTMLElement): void {
         try {
-            // Only minimal debug logs as per user request
             // Extract post content with various selectors
             const contentSelectors = [
                 '.feed-shared-update-v2__description-wrapper',
@@ -211,32 +210,58 @@ class LinkedInLLMDetector {
                     }
                 }
             }
-            debugLog(`Analyzing post by ${authorName}.`, null, LogLevel.INFO);
 
-            // Check if author name contains 'Maxime' (case-insensitive)
+            // --- TRANSPARENT LOGIC & SINGLE LOG ---
             let isSelfCentred = false;
+            let decisionReason = [] as string[];
+            let matchedKeywords: string[] = [];
+            let containsKeywords = false;
+            let containsAuthorImage = false;
+
+            // Rule 1: Author name contains 'Maxime'
             if (authorName && /maxime/i.test(authorName)) {
                 isSelfCentred = true;
+                decisionReason.push("Author name contains 'Maxime'");
             } else {
-                // Check for self-centred keywords and author image
-                const containsKeywords = this.llmDetector.containsLLMKeyword(content);
+                // Rule 2: Content contains self-centered keywords
+                containsKeywords = this.llmDetector.containsLLMKeyword(content);
                 if (containsKeywords) {
-                    const containsAuthorImage = this.imageAnalyzer.containsAuthorImage(postElement);
+                    // Find which keywords matched (from debugLog in LLMDetector)
+                    matchedKeywords = this.llmDetector
+                        ['selfCenteredKeywords']
+                        .filter(kw => content.toLowerCase().includes(kw.toLowerCase()));
+                    decisionReason.push(`Matched keywords: ${matchedKeywords.join(', ')}`);
+                    // Rule 3: Post contains author image
+                    containsAuthorImage = this.imageAnalyzer.containsAuthorImage(postElement);
                     if (containsAuthorImage) {
                         isSelfCentred = true;
+                        decisionReason.push('Post contains author image');
+                    } else {
+                        decisionReason.push('No author image found');
                     }
+                } else {
+                    decisionReason.push('No self-centered keywords found');
                 }
             }
+
+            // --- SINGLE TRANSPARENT LOG ---
+            debugLog(
+                `Post processed for author: ${authorName} | Decision: ${isSelfCentred ? 'SELF-CENTRED' : 'not self-centred'}`,
+                {
+                    author: authorName,
+                    contentPreview: content.length > 120 ? content.substring(0, 120) + '...' : content,
+                    isSelfCentred,
+                    decisionReason
+                },
+                LogLevel.INFO
+            );
+
             if (isSelfCentred) {
-                debugLog('This post is self-centred', null, LogLevel.ERROR);
                 this.highlightPost(postElement);
                 this.addUnsubscribeButton(postElement);
                 updateStats('llmPostsFound');
-            } else {
-                debugLog('This post is NOT self-centred', null, LogLevel.INFO);
             }
         } catch (error) {
-            // Only log errors if something goes wrong
             debugLog('Error processing post', error, LogLevel.ERROR);
         }
     }

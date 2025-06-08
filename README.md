@@ -74,6 +74,7 @@ The extension includes built-in debugging capabilities to help troubleshoot issu
 2. **Debug Console**: Click "Show Debug Console" in the extension popup to open an in-page debug console that shows real-time information about post detection.
 3. **Manual Analysis**: Click "Analyze Feed Now" to force the extension to scan the current LinkedIn feed for posts.
 4. **Browser Console**: Open your browser's developer tools (F12) and check the console for detailed logs.
+5. **Post Processing Debug**: For detailed information about how each post is being processed, look for debug statements in your browser's console. The extension logs step-by-step analysis and detection results for every post it processes.
 
 ### Debug Features
 
