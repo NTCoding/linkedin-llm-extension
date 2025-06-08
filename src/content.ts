@@ -198,7 +198,14 @@ class LinkedInLLMDetector {
             }
             let authorName = '';
             if (actorElement) {
-                authorName = actorElement.textContent?.trim() || '';
+                // Get the innermost span content for the author name
+                const spanLtr = actorElement.querySelector('span[dir="ltr"]');
+                if (spanLtr) {
+                    // Just get the text content directly - LinkedIn provides the name correctly inside the span
+                    authorName = spanLtr.textContent?.trim() || '';
+                } else {
+                    authorName = actorElement.textContent?.trim() || '';
+                }
             } else {
                 const metaLink = postElement.querySelector('a.update-components-actor__meta-link');
                 if (metaLink) {
@@ -209,6 +216,18 @@ class LinkedInLLMDetector {
                         authorName = metaLink.textContent?.trim() || '';
                     }
                 }
+            }
+            // Clean up author name: remove LinkedIn-specific designations if any remain
+            if (authorName) {
+                // First, remove any direct duplications (e.g. "Manuel PaisManuel Pais")
+                // This specific fix handles the exact case where a name is duplicated without spaces
+                const isDuplicated = /^(.+)\1$/.test(authorName);
+                if (isDuplicated) {
+                    authorName = authorName.substring(0, authorName.length / 2);
+                }
+                
+                // Then remove common LinkedIn designations and noise that might appear after the name
+                authorName = authorName.replace(/(?:\s+•\s+(?:(?:Premium)|(?:\d+(?:er|nd|rd|th))|(?:1er)))+.*$/i, '').trim();
             }
 
             // --- TRANSPARENT LOGIC & SINGLE LOG ---

@@ -26,10 +26,19 @@ npm install
 
 # SKIP ICON CONVERSION IF IT FAILS
 echo "Converting SVG icons to PNG (if possible)..."
-if npm run convert-icons; then
-  echo "Icon conversion succeeded."
-else
-  echo "[WARN] Icon conversion failed or not needed. Skipping."
+for size in 16 48 128; do
+  if [ -f "icons/icon${size}.svg" ]; then
+    npx svgexport "icons/icon${size}.svg" "icons/icon${size}.png" "${size}:${size}" || echo "[WARN] svgexport failed for icon${size}.svg, skipping."
+  else
+    echo "[WARN] icons/icon${size}.svg not found, skipping."
+  fi
+done
+
+# Remove old package if it exists to avoid UsageError
+PACKAGE_PATH="web-ext-artifacts/linkedin_self-centered_post_detector-1.1.0.zip"
+if [ -f "$PACKAGE_PATH" ]; then
+  echo "Removing old package: $PACKAGE_PATH"
+  rm "$PACKAGE_PATH"
 fi
 
 echo "Building extension..."
