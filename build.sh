@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Build script for LinkedIn Self-Centered Post Detector browser extension
 
@@ -8,6 +9,19 @@ echo "╔═══════════════════════�
 echo "║   LinkedIn Self-Centered Post Detector - Build Script         ║"
 echo "╚═══════════════════════════════════════════════════════════════╝"
 echo -e "\033[0m"
+
+# Remove old build log if it exists
+LOGFILE="build.log"
+if [ -f "$LOGFILE" ]; then
+  rm "$LOGFILE"
+fi
+
+# All output will be logged to build.log (line-buffered for real-time logging)
+if command -v stdbuf &> /dev/null; then
+  exec > >(stdbuf -oL tee "$LOGFILE") 2>&1
+else
+  exec > >(tee "$LOGFILE") 2>&1
+fi
 
 # Check for dependencies
 echo "Checking dependencies..."
@@ -24,18 +38,26 @@ fi
 echo "Installing dependencies..."
 npm install
 
-# SKIP ICON CONVERSION IF IT FAILS
-echo "Converting SVG icons to PNG (if possible)..."
+# SKIP ICON CONVERSION IF IT FAILS, WITH TIMEOUT
+# Each svgexport command will timeout after 60 seconds
+
+echo "Converting SVG icons to PNG (if possible, 60s timeout per icon)..."
 for size in 16 48 128; do
   if [ -f "icons/icon${size}.svg" ]; then
-    npx svgexport "icons/icon${size}.svg" "icons/icon${size}.png" "${size}:${size}" || echo "[WARN] svgexport failed for icon${size}.svg, skipping."
+    if command -v timeout &> /dev/null; then
+      timeout 60s npx svgexport "icons/icon${size}.svg" "icons/icon${size}.png" "${size}:${size}" \
+        || echo "[WARN] svgexport failed or timed out for icon${size}.svg, skipping."
+    else
+      echo "[ERROR] 'timeout' command not found. Please install coreutils (brew install coreutils) to provide 'timeout' on macOS." >&2
+      exit 1
+    fi
   else
     echo "[WARN] icons/icon${size}.svg not found, skipping."
   fi
 done
 
 # Remove old package if it exists to avoid UsageError
-PACKAGE_PATH="web-ext-artifacts/linkedin_self-centered_post_detector-1.1.0.zip"
+PACKAGE_PATH="web-ext-artifacts/linkedin_self_centered_post_detector-1.1.0.zip"
 if [ -f "$PACKAGE_PATH" ]; then
   echo "Removing old package: $PACKAGE_PATH"
   rm "$PACKAGE_PATH"
@@ -43,6 +65,10 @@ fi
 
 echo "Building extension..."
 npm run build
+if [ $? -ne 0 ]; then
+    echo -e "\033[1;31mBuild failed!\033[0m"
+    exit 1
+fi
 
 # Check if the build was successful
 if [ ! -f "dist/content.js" ]; then
@@ -51,7 +77,11 @@ if [ ! -f "dist/content.js" ]; then
 fi
 
 echo "Packaging extension..."
-npm run package
+npm run package -- --overwrite-dest
+if [ $? -ne 0 ]; then
+    echo -e "\033[1;31mPackaging failed!\033[0m"
+    exit 1
+fi
 
 echo -e "\033[1;32m"
 echo "╔═══════════════════════════════════════════════════════════════╗"

@@ -15,8 +15,8 @@ export class ImageAnalyzer {
     private profilePicSelectors = [
         '.update-components-actor__avatar-image',
         '.presence-entity__image',
-        '.feed-shared-actor__avatar',
-        '.evi-image'
+        '.feed-shared-actor__avatar'
+        // Removed '.evi-image' to avoid filtering out content images
     ];
 
     constructor() {

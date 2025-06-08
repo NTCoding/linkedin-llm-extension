@@ -237,6 +237,14 @@ class LinkedInLLMDetector {
             let containsKeywords = false;
             let containsAuthorImage = false;
 
+            // --- IMAGE ANALYSIS FIELDS ---
+            // Check if the post contains any images (simple: any <img> in the post)
+            let postContainsImage = false;
+            let imageIsAuthor = false;
+            const allImages = Array.from(postElement.querySelectorAll('img'));
+            postContainsImage = allImages.length > 0;
+            imageIsAuthor = this.imageAnalyzer.containsAuthorImage(postElement);
+
             // Rule 1: Author name contains 'Maxime'
             if (authorName && /maxime/i.test(authorName)) {
                 isSelfCentred = true;
@@ -246,12 +254,11 @@ class LinkedInLLMDetector {
                 containsKeywords = this.llmDetector.containsLLMKeyword(content);
                 if (containsKeywords) {
                     // Find which keywords matched (from debugLog in LLMDetector)
-                    matchedKeywords = this.llmDetector
-                        ['selfCenteredKeywords']
-                        .filter(kw => content.toLowerCase().includes(kw.toLowerCase()));
+                    matchedKeywords = (this.llmDetector['selfCenteredKeywords'] as string[])
+                        .filter((kw: string) => content.toLowerCase().includes(kw.toLowerCase()));
                     decisionReason.push(`Matched keywords: ${matchedKeywords.join(', ')}`);
                     // Rule 3: Post contains author image
-                    containsAuthorImage = this.imageAnalyzer.containsAuthorImage(postElement);
+                    containsAuthorImage = imageIsAuthor;
                     if (containsAuthorImage) {
                         isSelfCentred = true;
                         decisionReason.push('Post contains author image');
@@ -270,7 +277,9 @@ class LinkedInLLMDetector {
                     author: authorName,
                     contentPreview: content.length > 120 ? content.substring(0, 120) + '...' : content,
                     isSelfCentred,
-                    decisionReason
+                    decisionReason,
+                    postContainsImage,
+                    imageIsAuthor
                 },
                 LogLevel.INFO
             );
