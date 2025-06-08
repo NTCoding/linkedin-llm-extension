@@ -1,4 +1,6 @@
-**100% vibe coded.**
+<div align="center" style="font-size:2rem; font-weight:bold; margin-bottom:1em;">
+✨💫 <span style="color:#e94c2b;">100% VIBE CODED</span> 💫✨
+</div>
 
 # LinkedIn Self-Centered Post Detector
 
