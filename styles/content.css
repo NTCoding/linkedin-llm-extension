@@ -1,0 +1,58 @@
+/* Styling for LinkedIn Self-Centered Post Detector */
+
+/* Post highlighting */
+.self-centered-post-detected {
+    border: 2px solid #e94c2b !important;
+    position: relative;
+    padding-top: 30px !important;
+    background-color: rgba(233, 76, 43, 0.05) !important;
+}
+
+/* Warning badge */
+.self-centered-warning-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #e94c2b;
+    color: white;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 0 0 4px 0;
+    font-size: 12px;
+    z-index: 10;
+}
+
+/* Unsubscribe button */
+.self-centered-unsubscribe-button {
+    background-color: #0a66c2;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 4px 12px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.self-centered-unsubscribe-button:hover {
+    background-color: #004182;
+}
+
+.self-centered-unfollowed {
+    background-color: #808080 !important;
+}
+
+/* Keyword highlighting */
+.self-centered-keyword-highlight {
+    background-color: #ffe066;
+    padding: 0 2px;
+    border-radius: 3px;
+}
+
+/* Keyword highlighting */
+.llm-keyword-highlight {
+    background-color: #ffe066;
+    padding: 2px 0;
+    border-radius: 2px;
+}

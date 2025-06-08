@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <!-- LinkedIn background -->
+  <rect width="800" height="500" fill="#F3F2EF"/>
+  
+  <!-- LinkedIn header -->
+  <rect y="0" width="800" height="50" fill="#FFFFFF"/>
+  <rect x="20" y="15" width="30" height="20" rx="5" fill="#0A66C2"/>
+  <rect x="100" y="15" width="100" height="20" rx="5" fill="#E0E0E0"/>
+  <rect x="220" y="15" width="100" height="20" rx="5" fill="#E0E0E0"/>
+  <rect x="340" y="15" width="100" height="20" rx="5" fill="#E0E0E0"/>
+  <rect x="680" y="15" width="40" height="20" rx="10" fill="#E0E0E0"/>
+  <circle cx="750" cy="25" r="15" fill="#E0E0E0"/>
+  
+  <!-- LinkedIn Post -->
+  <rect x="150" y="80" width="500" height="300" rx="8" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1"/>
+  
+  <!-- LLM Warning Badge -->
+  <rect x="150" y="80" width="100" height="30" rx="0 0 8 0" fill="#E94C2B"/>
+  <text x="170" y="100" font-family="Arial" font-size="14" font-weight="bold" fill="white">LLM Post</text>
+  
+  <!-- Post header -->
+  <circle cx="180" cy="135" r="20" fill="#E0E0E0"/>
+  <rect x="210" y="120" width="150" height="15" rx="3" fill="#E0E0E0"/>
+  <rect x="210" y="140" width="100" height="10" rx="3" fill="#E0E0E0"/>
+  
+  <!-- Unsubscribe button -->
+  <rect x="370" y="120" width="100" height="25" rx="12" fill="#0A66C2"/>
+  <text x="385" y="137" font-family="Arial" font-size="12" font-weight="bold" fill="white">Unsubscribe</text>
+  
+  <!-- Post content -->
+  <rect x="180" y="170" width="440" height="10" rx="3" fill="#E0E0E0"/>
+  <rect x="180" y="190" width="440" height="10" rx="3" fill="#E0E0E0"/>
+  <rect x="180" y="210" width="440" height="10" rx="3" fill="#E0E0E0"/>
+  <rect x="180" y="230" width="320" height="10" rx="3" fill="#E0E0E0"/>
+  
+  <!-- Highlighted LLM terms -->
+  <rect x="230" y="210" width="60" height="10" rx="3" fill="#FFE066"/>
+  <rect x="380" y="190" width="80" height="10" rx="3" fill="#FFE066"/>
+  
+  <!-- Post image -->
+  <rect x="180" y="260" width="440" height="100" rx="5" fill="#E0E0E0"/>
+  
+  <!-- Extension Popup -->
+  <rect x="600" y="60" width="180" height="240" rx="5" fill="#FFFFFF" stroke="#D0D0D0" stroke-width="2"/>
+  <rect x="600" y="60" width="180" height="40" rx="5 5 0 0" fill="#0A66C2"/>
+  <text x="620" y="85" font-family="Arial" font-size="14" font-weight="bold" fill="white">LLM Post Detector</text>
+  
+  <!-- Popup content -->
+  <rect x="610" y="110" width="160" height="60" rx="3" fill="#F3F6F8"/>
+  <text x="620" y="130" font-family="Arial" font-size="12" fill="#333">Posts Analyzed: 28</text>
+  <text x="620" y="150" font-family="Arial" font-size="12" fill="#333">LLM Posts Found: 7</text>
+  <text x="620" y="170" font-family="Arial" font-size="12" fill="#333">Unfollowed: 3</text>
+  
+  <!-- Toggles -->
+  <text x="620" y="200" font-family="Arial" font-size="12" fill="#333">Enable Detection</text>
+  <rect x="730" y="190" width="30" height="16" rx="8" fill="#0A66C2"/>
+  <circle cx="750" cy="198" r="7" fill="white"/>
+  
+  <text x="620" y="230" font-family="Arial" font-size="12" fill="#333">Auto-Unfollow</text>
+  <rect x="730" y="220" width="30" height="16" rx="8" fill="#CCCCCC"/>
+  <circle cx="737" cy="228" r="7" fill="white"/>
+  
+  <rect x="620" y="250" width="140" height="30" rx="15" fill="#0A66C2"/>
+  <text x="650" y="270" font-family="Arial" font-size="12" font-weight="bold" fill="white">Clear Statistics</text>
+</svg>

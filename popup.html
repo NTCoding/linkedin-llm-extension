@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LinkedIn Self-Centered Post Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 300px;
+            padding: 15px;
+        }
+        
+        h1 {
+            font-size: 18px;
+            color: #0a66c2;
+            margin-top: 0;
+        }
+        
+        .stats {
+            background-color: #f3f6f8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        button {
+            background-color: #0a66c2;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #004182;
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #0a66c2;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        
+        .debug-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .debug-section h2 {
+            font-size: 14px;
+            color: #666;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        #show-debug {
+            background-color: #666;
+        }
+        
+        #show-debug:hover {
+            background-color: #444;
+        }
+        
+        #analyze-now {
+            background-color: #27ae60;
+        }
+        
+        #analyze-now:hover {
+            background-color: #219653;
+        }
+        
+        footer {
+            font-size: 11px;
+            color: #666;
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>LinkedIn Self-Centered Post Detector</h1>
+    
+    <div class="stats">
+        <div class="stat-item">
+            <span>Posts Analyzed:</span>
+            <span id="posts-analyzed">0</span>
+        </div>
+        <div class="stat-item">
+            <span>Self-Centered Posts:</span>
+            <span id="llm-posts-found">0</span>
+        </div>
+        <div class="stat-item">
+            <span>Unfollowed Authors:</span>
+            <span id="unfollowed-authors">0</span>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <div class="toggle-container">
+            <label class="toggle">
+                <input type="checkbox" id="enable-detection" checked>
+                <span class="slider"></span>
+            </label>
+            <span>Enable Post Detection</span>
+        </div>
+        
+        <div class="toggle-container">
+            <label class="toggle">
+                <input type="checkbox" id="auto-unfollow">
+                <span class="slider"></span>
+            </label>
+            <span>Auto-Unfollow Self-Promoters</span>
+        </div>
+        
+        <button id="clear-stats">Clear Statistics</button>
+        <button id="analyze-now">Analyze Feed Now</button>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Debugging Tools</h2>
+        <div class="toggle-container">
+            <label class="toggle">
+                <input type="checkbox" id="debug-mode">
+                <span class="slider"></span>
+            </label>
+            <span>Debug Mode</span>
+        </div>
+        <button id="show-debug">Show Debug Console</button>
+    </div>
+    
+    <footer>
+        &copy; 2025 LinkedIn Self-Centered Post Detector
+    </footer>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
