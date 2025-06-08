@@ -1,3 +1,4 @@
+<!-- 100% vibe coded. -->
 # LinkedIn Self-Centered Post Detector
 
 This project is a browser extension that identifies LinkedIn posts with self-centered content that contain pictures of the author, and allows you to instantly unsubscribe from these authors.
@@ -12,24 +13,30 @@ This project is a browser extension that identifies LinkedIn posts with self-cen
 ## Installation
 
 1. Clone the repository:
-   ```
+
+   ```sh
    git clone https://github.com/yourusername/linkedin-llm-post-detector.git
    ```
 
 2. Navigate to the project directory:
-   ```
+
+   ```sh
    cd linkedin-llm-post-detector
    ```
 
 3. Install the dependencies:
-   ```
+
+   ```sh
    npm install
    ```
 
 4. Build the extension:
+
+   ```sh
+   ./build.sh
    ```
-   npm run build
-   ```
+
+   > **Note:** You should use the `build.sh` script to build the extension. This script will handle the TypeScript compilation and any additional build steps required for packaging the extension. Make sure the script is executable (`chmod +x build.sh`).
 
 5. Load the extension in your browser:
    - For Chrome: Go to chrome://extensions/, enable "Developer mode", click "Load unpacked", and select the `dist` folder
@@ -47,9 +54,11 @@ This project is a browser extension that identifies LinkedIn posts with self-cen
 
 1. Clone the repository and install dependencies as described above.
 2. Start the development build with watch mode:
-   ```
+
+   ```sh
    npm run watch
    ```
+
 3. Load the extension in your browser as described in the Installation section.
 4. Make changes to the source code and webpack will automatically rebuild the extension.
 5. Reload the extension in your browser to see the changes.
@@ -80,8 +89,6 @@ If posts are not being detected:
 4. Verify that the CSS selectors match LinkedIn's current UI
 5. Ensure content script is running on LinkedIn by checking the browser console
 6. Try scrolling down to load more posts and trigger the mutation observer
-3. Load the extension in your browser from the `dist` folder.
-4. Make changes to the code and reload the extension to see your changes.
 
 ## Contributing
 
