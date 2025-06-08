@@ -1,4 +1,5 @@
-<!-- 100% vibe coded. -->
+**100% vibe coded.**
+
 # LinkedIn Self-Centered Post Detector
 
 This project is a browser extension that identifies LinkedIn posts with self-centered content that contain pictures of the author, and allows you to instantly unsubscribe from these authors.
