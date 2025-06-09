@@ -11,7 +11,8 @@
     "convert-icons": "npx svgexport icons/icon16.svg icons/icon16.png 16:16 && npx svgexport icons/icon48.svg icons/icon48.png 48:48 && npx svgexport icons/icon128.svg icons/icon128.png 128:128",
     "package:manifest-v2": "npm run convert-icons && web-ext build --source-dir ./dist/manifest-v2 --artifacts-dir ./web-ext-artifacts/manifest-v2",
     "package:manifest-v3": "npm run convert-icons && web-ext build --source-dir ./dist/manifest-v3 --artifacts-dir ./web-ext-artifacts/manifest-v3",
-    "package": "npm run package:manifest-v3"
+    "package": "npm run package:manifest-v3",
+    "start:firefox": "web-ext run --source-dir ./dist/manifest-v2"
   },
   "keywords": [
     "browser",
