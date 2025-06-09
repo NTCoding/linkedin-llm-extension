@@ -2,12 +2,16 @@
   "name": "linkedin-llm-post-detector",
   "version": "1.2.0",
   "description": "A browser extension that identifies LinkedIn posts with self-centered content containing the author's image and allows unsubscribing from them.",
-  "main": "./dist/content.js",
+  "main": "./dist/manifest-v3/content.js",
   "scripts": {
-    "build": "vite build",
-    "watch": "vite build --watch",
+    "build:manifest-v2": "cross-env BUILD_TARGET=manifest-v2 vite build",
+    "build:manifest-v3": "cross-env BUILD_TARGET=manifest-v3 vite build",
+    "build": "npm run build:manifest-v3",
+    "watch": "cross-env BUILD_TARGET=manifest-v3 vite build --watch",
     "convert-icons": "npx svgexport icons/icon16.svg icons/icon16.png 16:16 && npx svgexport icons/icon48.svg icons/icon48.png 48:48 && npx svgexport icons/icon128.svg icons/icon128.png 128:128",
-    "package": "npm run convert-icons && web-ext build --source-dir ./dist"
+    "package:manifest-v2": "npm run convert-icons && web-ext build --source-dir ./dist/manifest-v2 --artifacts-dir ./web-ext-artifacts/manifest-v2",
+    "package:manifest-v3": "npm run convert-icons && web-ext build --source-dir ./dist/manifest-v3 --artifacts-dir ./web-ext-artifacts/manifest-v3",
+    "package": "npm run package:manifest-v3"
   },
   "keywords": [
     "browser",
@@ -25,6 +29,7 @@
   "devDependencies": {
     "@types/chrome": "^0.0.326",
     "@types/node": "^22.15.30",
+    "cross-env": "^7.0.3",
     "svgexport": "^0.4.2",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",

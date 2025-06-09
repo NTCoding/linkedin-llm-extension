@@ -56,6 +56,15 @@ for size in 16 48 128; do
   fi
 done
 
+# Clean up the dist directory to remove default build files
+echo "Cleaning up dist directory..."
+if [ -d "dist" ]; then
+  # Remove all files in dist/ but keep the manifest-v2 and manifest-v3 directories
+  find dist -maxdepth 1 -type f -exec rm {} \;
+  # Remove any directories that are not manifest-v2 or manifest-v3
+  find dist -maxdepth 1 -type d -not -name "manifest-v2" -not -name "manifest-v3" -not -name "dist" -exec rm -rf {} \;
+fi
+
 # Remove old package if it exists to avoid UsageError
 PACKAGE_PATH="web-ext-artifacts/linkedin_self_centered_post_detector-1.1.0.zip"
 if [ -f "$PACKAGE_PATH" ]; then
@@ -63,30 +72,53 @@ if [ -f "$PACKAGE_PATH" ]; then
   rm "$PACKAGE_PATH"
 fi
 
-echo "Building extension..."
-npm run build
+
+echo "Building extension (manifest-v2)..."
+npm run build:manifest-v2
 if [ $? -ne 0 ]; then
-    echo -e "\033[1;31mBuild failed!\033[0m"
+    echo -e "\033[1;31mBuild failed for manifest-v2!\033[0m"
     exit 1
 fi
 
-# Check if the build was successful
-if [ ! -f "dist/content.js" ]; then
-    echo -e "\033[1;31mBuild failed! The dist/content.js file was not created.\033[0m"
+# Check if the manifest-v2 build was successful
+if [ ! -f "dist/manifest-v2/content.js" ]; then
+    echo -e "\033[1;31mBuild failed! The dist/manifest-v2/content.js file was not created.\033[0m"
     exit 1
 fi
 
-echo "Packaging extension..."
-npm run package -- --overwrite-dest
+echo "Building extension (manifest-v3 - for backward compatibility)..."
+npm run build:manifest-v3
 if [ $? -ne 0 ]; then
-    echo -e "\033[1;31mPackaging failed!\033[0m"
+    echo -e "\033[1;31mBuild failed for manifest-v3!\033[0m"
+    exit 1
+fi
+
+# Check if the manifest-v3 build was successful
+if [ ! -f "dist/manifest-v3/content.js" ]; then
+    echo -e "\033[1;31mBuild failed! The dist/manifest-v3/content.js file was not created.\033[0m"
+    exit 1
+fi
+
+
+echo "Packaging extension (manifest-v2)..."
+npm run package:manifest-v2 -- --overwrite-dest
+if [ $? -ne 0 ]; then
+    echo -e "\033[1;31mPackaging failed for manifest-v2!\033[0m"
+    exit 1
+fi
+
+echo "Packaging extension (manifest-v3 - for backward compatibility)..."
+npm run package:manifest-v3 -- --overwrite-dest
+if [ $? -ne 0 ]; then
+    echo -e "\033[1;31mPackaging failed for manifest-v3!\033[0m"
     exit 1
 fi
 
 echo -e "\033[1;32m"
 echo "╔═══════════════════════════════════════════════════════════════╗"
-echo "║   Build complete! The packaged extension is in:               ║"
-echo "║   ./web-ext-artifacts/                                        ║"
+echo "║   Build complete! The packaged extensions are in:             ║"
+echo "║   ./web-ext-artifacts/manifest-v2/ (manifest v2 version)      ║"
+echo "║   ./web-ext-artifacts/manifest-v3/ (manifest v3 version)      ║"
 echo "╚═══════════════════════════════════════════════════════════════╝"
 echo -e "\033[0m"
 
