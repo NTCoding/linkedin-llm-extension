@@ -4,8 +4,8 @@
   "description": "A browser extension that identifies LinkedIn posts with self-centered content containing the author's image and allows unsubscribing from them.",
   "main": "./dist/content.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "watch": "webpack --watch --config webpack.config.js",
+    "build": "vite build",
+    "watch": "vite build --watch",
     "convert-icons": "npx svgexport icons/icon16.svg icons/icon16.png 16:16 && npx svgexport icons/icon48.svg icons/icon48.png 48:48 && npx svgexport icons/icon128.svg icons/icon128.png 128:128",
     "package": "npm run convert-icons && web-ext build --source-dir ./dist"
   },
@@ -24,12 +24,10 @@
   },
   "devDependencies": {
     "@types/chrome": "^0.0.254",
-    "copy-webpack-plugin": "^11.0.0",
+    "@types/node": "^20.0.0",
     "svgexport": "^0.4.2",
-    "ts-loader": "^9.5.2",
     "typescript": "^5.8.3",
-    "web-ext": "^7.8.0",
-    "webpack": "^5.99.9",
-    "webpack-cli": "^5.1.4"
+    "vite": "^5.0.0",
+    "web-ext": "^7.8.0"
   }
 }
